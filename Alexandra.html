@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+  <title>Alexandra Gonzalez </title>
+  <style>
+    body {
+      text-align: center;
+      background: lavender;
+      background-size: cover;
+      background-position: center;
+      color: black;
+      font-family: helvetica;
+    }
+    p {
+
+      font-size: 22px;
+      font-family: Impact;
+    }
+    input {
+      border: 0;
+      padding: 10px;
+      font-size: 18px;
+    }
+    input[type="submit"] {
+      background: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<img src="https://t4.ftcdn.net/jpg/02/78/47/65/360_F_278476564_KaDG2yoejn6hS0vQ67NkHmKsDaQVjDIt.jpg">
+  <p> Send your name </p>
+	<input id="Name" placeholder="Your Name">
+  <input id="Email" placeholder="Your Email">
+  <input id="submit" type="submit">
+
+	
+	
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+	import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpcZBVBGxxYOVlIpogzM6yPls-Bp5A5F0",
+    authDomain: "lolz-d5c79.firebaseapp.com",
+    databaseURL: "https://lolz-d5c79-default-rtdb.firebaseio.com",
+    projectId: "lolz-d5c79",
+    storageBucket: "lolz-d5c79.appspot.com",
+    messagingSenderId: "901597528658",
+    appId: "1:901597528658:web:abe5451a39b97248ee958b"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+	const Name = document.querySelector("#Name") 
+	const Email = document.querySelector("#Email")
+
+	document.querySelector('#submit').addEventListener('click', Submit)
+	function Submit() {
+	  const timestamp = buildTimestamp()
+	  
+	  set(ref(db, timestamp), {
+		  Name: Name.value,
+	      email: Email.value,
+	  });
+
+	  Name.value = ""
+	  Email.value = ""
+
+
+		function buildTimestamp() {
+		  const now = new Date();
+		  let timestamp = now.getFullYear().toString() + "/";
+		  //const month = now.toLocaleString('default', { month: 'long' });
+
+		  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+		  month = month.toString()
+		  month = addLeadingZero(month)
+		  timestamp += month + "/"; 
+
+		  let date = now.getDate().toString()
+		  date = addLeadingZero(date)
+		  timestamp += date + "/";
+
+		  let hours = now.getHours().toString()
+		  hours = addLeadingZero(hours)
+		  timestamp += hours + ":";
+
+		  let minutes = now.getMinutes().toString()
+		  minutes = addLeadingZero(minutes)
+		  timestamp += minutes + ":";
+
+		  let seconds = now.getSeconds().toString()
+		  seconds = addLeadingZero(seconds)
+		  timestamp += seconds;
+  
+		  return timestamp
+		}
+	
+		function addLeadingZero(units) {
+			if (units.length < 2) {
+				units = "0" + units
+			}
+			return units
+		}
+
+	}
+	
+</script>
+ 
+</body>
